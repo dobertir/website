@@ -3,71 +3,602 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ricardo Doberti — Innovación & Data</title>
-  <link rel="stylesheet" href="tokens.css">
-  <link href="https://fonts.googleapis.com/css2?family=Abel&family=Archivo:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Ricardo Doberti — Consultor & Builder</title>
+  <meta name="description" content="Ingeniero en Biotecnología y Magíster en Gestión y Políticas Públicas. Herramientas de datos para el ecosistema de innovación chileno." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Abel&family=Archivo:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
+    /* ── TOKEN SYSTEM (mirrored from Gungnir / tokens.css) ─────────────── */
+    :root {
+      --ink-0:   #FBFAF7;
+      --ink-50:  #F3F2EE;
+      --ink-100: #E8E7E2;
+      --ink-200: #D4D2CB;
+      --ink-300: #B8B5AC;
+      --ink-400: #8C8980;
+      --ink-500: #6B6860;
+      --ink-600: #4A4840;
+      --ink-700: #2E2D28;
+      --ink-800: #1C1B18;
+      --ink-900: #0F0E0C;
+      --accent:        #2C4A3E;
+      --accent-mid:    #3D6657;
+      --accent-light:  #E4EDE9;
+      --accent-faint:  #F0F5F3;
+      --highlight:       #5B4B8A;
+      --highlight-light: #EDE9F5;
+      --amber:       #7A4F1E;
+      --amber-light: #F5EDE0;
+      --bg:       #F7F6F2;
+      --surface:  #FEFEFE;
+      --border:   #E2E0D9;
+      --border-mid: #CCCAC2;
+      --font-brand:   'Abel', 'Archivo', sans-serif;
+      --font-display: 'Archivo', 'Inter', sans-serif;
+      --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      background-color: var(--ink-0); /* El crema claro de Gungnir */
-      color: var(--ink-900);
+      background: var(--bg);
+      color: var(--ink-800);
       font-family: var(--font-sans);
-      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── SHELL ─────────────────────────────────────────── */
+    .shell { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+
+    /* ── SIDEBAR ───────────────────────────────────────── */
+    .sidebar {
+      background: var(--ink-800);
+      border-right: 1px solid var(--ink-700);
       display: flex;
-      justify-content: center;
-      padding: var(--s-8) var(--s-4);
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
     }
-    .container { max-width: 700px; width: 100%; }
-    header { margin-bottom: var(--s-8); }
-    h1 { font-family: var(--font-brand); font-size: 32px; font-weight: 400; color: var(--ink-900); }
-    .subtitle { color: var(--ink-400); font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
-    
-    .project-card {
-      background: white;
-      border: 1px solid var(--ink-200);
-      border-radius: var(--r-3);
-      padding: var(--s-6);
-      margin-top: var(--s-6);
-      transition: transform 0.2s ease;
+    .brand {
+      padding: 20px 16px 16px;
+      border-bottom: 1px solid var(--ink-700);
     }
-    .project-card:hover { transform: translateY(-2px); border-color: var(--accent-base); }
-    .tag { 
-      font-family: var(--font-mono); font-size: 11px; 
-      background: var(--ink-50); padding: 2px 6px; border-radius: 4px;
+    .brand-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .wordmark { font-family: var(--font-brand); font-size: 19px; color: var(--ink-0); letter-spacing: 0.3px; }
+    .wordmark em { color: var(--accent-mid); font-style: normal; margin-left: 1px; }
+    .tagline { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-400); padding-left: 36px; }
+    .nav-section { padding: 16px 8px 4px; }
+    .nav-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-500); padding: 0 8px 6px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 8px; border-radius: 5px; cursor: pointer;
+      font-size: 13px; color: var(--ink-300);
+      transition: background 0.12s, color 0.12s; margin-bottom: 1px;
     }
-    .btn-launch {
-      display: inline-block;
-      margin-top: var(--s-4);
-      color: var(--accent-base);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
+    .nav-item:hover { background: var(--ink-700); color: var(--ink-100); }
+    .nav-item.active { background: var(--accent); color: var(--ink-0); }
+    .nav-item .spacer { flex: 1; }
+    .nav-item .count {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--ink-400); background: var(--ink-700);
+      padding: 1px 6px; border-radius: 20px;
+    }
+    .nav-item.active .count { background: var(--accent-mid); color: var(--ink-0); }
+    .sidebar-footer {
+      margin-top: auto; padding: 14px 16px;
+      border-top: 1px solid var(--ink-700);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: var(--ink-0);
+      font-family: var(--font-display); font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .who .name { font-size: 12px; font-weight: 500; color: var(--ink-100); }
+    .who .role { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); }
+
+    /* ── MAIN ──────────────────────────────────────────── */
+    .main { display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── TOPBAR ────────────────────────────────────────── */
+    .topbar {
+      height: 44px; background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 24px; gap: 8px;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .crumbs { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--ink-400); }
+    .crumbs .sep { color: var(--ink-300); }
+    .crumbs .current { color: var(--ink-700); font-weight: 500; }
+    .topbar .spacer { flex: 1; }
+    .topbar-right { display: flex; gap: 8px; }
+
+    /* ── CONTENT ───────────────────────────────────────── */
+    .content { padding: 24px 32px; flex: 1; }
+
+    /* ── SECTION HEADER ────────────────────────────────── */
+    .section-h { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
+    .section-h h1 { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--ink-800); }
+    .section-h .meta { font-family: var(--font-mono); font-size: 11px; color: var(--ink-400); }
+    .section-h .spacer { flex: 1; }
+
+    /* ── CARDS ─────────────────────────────────────────── */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+    .card-h { display: flex; align-items: flex-start; justify-content: space-between; padding: 16px 20px 0; }
+    .card-h h3 { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--ink-700); }
+    .card-b { padding: 16px 20px; }
+    .card-b.flush { padding: 0; }
+
+    /* ── KPI GRID ──────────────────────────────────────── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px 12px; }
+    .kpi-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink-400); margin-bottom: 6px; }
+    .kpi-value { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--ink-800); line-height: 1; margin-bottom: 4px; }
+    .kpi-sub { font-size: 11px; color: var(--ink-400); }
+
+    /* ── CHIPS ─────────────────────────────────────────── */
+    .chip { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 10px; padding: 2px 8px; border-radius: 20px; border: 1px solid; white-space: nowrap; }
+    .chip-neutral { background: var(--ink-50); color: var(--ink-500); border-color: var(--border-mid); }
+    .chip-accent   { background: var(--accent-faint); color: var(--accent); border-color: #b8cfc9; }
+    .chip-violet   { background: var(--highlight-light); color: var(--highlight); border-color: #c4b8e0; }
+    .chip-amber    { background: var(--amber-light); color: var(--amber); border-color: #d4b896; }
+    .chip-live     { background: var(--accent-light); color: var(--accent); border-color: #a8c8be; font-weight: 500; }
+    .chip-wip      { background: var(--amber-light); color: var(--amber); border-color: #d4b896; }
+
+    /* ── BUTTONS ───────────────────────────────────────── */
+    .btn { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 11px; padding: 6px 14px; border-radius: 5px; border: 1px solid var(--border-mid); background: var(--surface); color: var(--ink-600); cursor: pointer; transition: all 0.12s; text-decoration: none; }
+    .btn:hover { background: var(--ink-50); border-color: var(--ink-400); color: var(--ink-800); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--ink-0); }
+    .btn-primary:hover { background: var(--accent-mid); border-color: var(--accent-mid); color: var(--ink-0); }
+    .btn-ghost { background: transparent; border-color: var(--ink-600); color: var(--ink-300); }
+    .btn-ghost:hover { background: var(--ink-700); border-color: var(--ink-400); color: var(--ink-100); }
+
+    /* ── HERO PANEL ────────────────────────────────────── */
+    .hero-panel {
+      background: var(--ink-800); border-radius: 8px; padding: 32px 36px; margin-bottom: 20px;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start;
+    }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-400); margin-bottom: 10px; }
+    .hero-name { font-family: var(--font-display); font-size: 38px; font-weight: 700; color: var(--ink-0); line-height: 1.05; letter-spacing: -1px; margin-bottom: 12px; }
+    .hero-name span { color: var(--accent-mid); }
+    .hero-sub { font-size: 13px; color: var(--ink-300); line-height: 1.7; max-width: 500px; margin-bottom: 20px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+    .hero-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .hero-monogram {
+      width: 72px; height: 72px; border-radius: 8px;
+      background: var(--accent); border: 1px solid var(--accent-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 26px; font-weight: 700;
+      color: var(--ink-0); flex-shrink: 0;
+    }
+
+    /* ── ABOUT ─────────────────────────────────────────── */
+    .about-grid { display: grid; grid-template-columns: 1fr 250px; gap: 24px; }
+    .about-body { font-size: 13px; color: var(--ink-500); line-height: 1.75; }
+    .about-body p + p { margin-top: 10px; }
+    .about-body strong { color: var(--ink-700); font-weight: 500; }
+    .stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--border); gap: 12px; }
+    .stat-row:first-child { border-top: 1px solid var(--border); }
+    .stat-k { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); white-space: nowrap; }
+    .stat-v { font-family: var(--font-mono); font-size: 11px; color: var(--ink-700); font-weight: 500; text-align: right; }
+
+    /* ── PROJECTS ──────────────────────────────────────── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 4px; }
+    .proj-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 18px 20px 16px; display: flex; flex-direction: column; gap: 8px;
+      transition: border-color 0.12s; text-decoration: none; color: inherit; position: relative;
+    }
+    .proj-card:hover { border-color: var(--ink-300); }
+    .proj-card.featured { border-color: #a8c8be; background: var(--accent-faint); }
+    .proj-card.featured:hover { border-color: var(--accent); }
+    .proj-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .proj-name { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--ink-800); }
+    .proj-desc { font-size: 12px; color: var(--ink-500); line-height: 1.6; flex: 1; }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: 4px; }
+    .stack-tag { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); border: 1px solid var(--border); padding: 1px 7px; border-radius: 3px; background: var(--bg); }
+    .proj-card.featured .stack-tag { background: #d8e9e4; border-color: #b8d4cc; color: var(--accent); }
+    .proj-arrow { font-size: 12px; color: var(--ink-300); transition: transform 0.12s; }
+    .proj-card:hover .proj-arrow { transform: translate(2px, -2px); color: var(--accent); }
+
+    /* ── EXPERIENCE ────────────────────────────────────── */
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-item { display: grid; grid-template-columns: 130px 1fr; gap: 20px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-org { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--ink-700); margin-bottom: 2px; }
+    .exp-date { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); }
+    .exp-role { font-size: 13px; font-weight: 500; color: var(--ink-700); margin-bottom: 6px; }
+    .exp-bullets { display: flex; flex-direction: column; gap: 3px; }
+    .exp-bullet { font-size: 12px; color: var(--ink-500); padding-left: 12px; position: relative; }
+    .exp-bullet::before { content: '·'; position: absolute; left: 2px; color: var(--ink-300); }
+
+    /* ── EDU + SKILLS ──────────────────────────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .edu-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .edu-item:last-child { border-bottom: none; }
+    .edu-degree { font-size: 12px; font-weight: 500; color: var(--ink-700); }
+    .edu-school { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); margin-top: 1px; }
+    .edu-year { font-family: var(--font-mono); font-size: 10px; color: var(--ink-300); }
+    .skill-group { margin-bottom: 12px; }
+    .skill-label { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); margin-bottom: 5px; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+
+    /* ── BLOG ──────────────────────────────────────────── */
+    .blog-empty { padding: 36px; text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--ink-400); border: 1px dashed var(--border-mid); border-radius: 6px; }
+
+    /* ── CONTACT ───────────────────────────────────────── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .contact-intro { font-size: 13px; color: var(--ink-500); line-height: 1.75; }
+    .contact-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; transition: padding-left 0.12s; }
+    .contact-row:first-child { border-top: 1px solid var(--border); }
+    .contact-row:hover { padding-left: 6px; }
+    .contact-key { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--ink-700); }
+    .contact-val { font-family: var(--font-mono); font-size: 11px; color: var(--ink-400); }
+    .contact-row:hover .contact-val { color: var(--accent-mid); }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    .site-footer { margin-top: 40px; padding: 20px 0 8px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+    .site-footer span { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); }
+
+    /* ── SCREEN SYSTEM ─────────────────────────────────── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade { animation: fadeUp 0.25s ease forwards; }
+
+    /* ── ICON SVG ──────────────────────────────────────── */
+    .ico { display: inline-block; vertical-align: middle; }
+
+    /* ── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 720px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .content { padding: 16px; }
+      .hero-panel { grid-template-columns: 1fr; }
+      .hero-monogram { display: none; }
+      .about-grid, .two-col, .contact-grid { grid-template-columns: 1fr; }
+      .exp-item { grid-template-columns: 1fr; gap: 4px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="subtitle">Ricardo Doberti / Portafolio</div>
-      <h1>Explorando la intersección entre datos y políticas públicas.</h1>
-    </header>
+<div class="shell">
 
-    <section>
-      <div class="project-card">
-        <span class="tag">PROYECTO DESTACADO</span>
-        <h2 style="font-family: var(--font-display); font-size: 20px; margin: 12px 0 8px;">Gungnir: Public Funding Analytics</h2>
-        <p style="color: var(--ink-600); font-size: 15px; line-height: 1.6;">
-          Plataforma de inteligencia de datos para el análisis de financiamiento público en Chile. 
-          Diseñada para analistas que buscan conectar con empresas innovadoras.
-        </p>
-        <a href="Gungnir.html" class="btn-launch">Lanzar App →</a>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-row">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" fill="#FBFAF7" stroke="#2C4A3E" stroke-width="1.25"/>
+          <text x="16" y="21" text-anchor="middle" font-family="Archivo,sans-serif" font-size="11" font-weight="700" fill="#2C4A3E">RD</text>
+        </svg>
+        <div class="wordmark">doberti<em>·</em>me</div>
       </div>
-    </section>
+      <div class="tagline">Portfolio &amp; Projects</div>
+    </div>
+    <nav>
+      <div class="nav-section">
+        <div class="nav-label">Workspace</div>
+        <div class="nav-item active" data-screen="home" onclick="nav('home')">
+          <svg class="ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5 8 2l6 4.5V14H10v-4H6v4H2V6.5Z"/></svg>
+          <span>Inicio</span>
+        </div>
+        <div class="nav-item" data-screen="projects" onclick="nav('projects')">
+          <svg class="ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
+          <span>Proyectos</span>
+          <span class="spacer"></span>
+          <span class="count">1</span>
+        </div>
+        <div class="nav-item" data-screen="cv" onclick="nav('cv')">
+          <svg class="ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="1" width="10" height="14" rx="1"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+          <span>CV</span>
+        </div>
+        <div class="nav-item" data-screen="blog" onclick="nav('blog')">
+          <svg class="ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h10v7H5l-3 2V3Z"/></svg>
+          <span>Notas</span>
+        </div>
+        <div class="nav-item" data-screen="contact" onclick="nav('contact')">
+          <svg class="ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="14" height="10" rx="1"/><path d="m1 4 7 5 7-5"/></svg>
+          <span>Contacto</span>
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Links</div>
+        <div class="nav-item" onclick="window.open('https://www.linkedin.com/in/doberti/','_blank')">
+          <svg class="ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 7v4M5 5v.5M8 11V8.5c0-1 .5-1.5 1.5-1.5S11 7.5 11 8.5V11"/></svg>
+          <span>LinkedIn</span>
+          <svg class="ico" width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="margin-left:auto;color:var(--ink-500)"><path d="M6 3H3v10h10v-3"/><path d="M9 3h4v4M8 8l5-5"/></svg>
+        </div>
+        <div class="nav-item" onclick="window.open('https://github.com/rdoberti','_blank')">
+          <svg class="ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11.5c-3 1-3-2-4-2m8 4v-3.1a2.6 2.6 0 0 0-.7-1.9c2.4-.3 4.7-1.2 4.7-5a3.9 3.9 0 0 0-1-2.7 3.5 3.5 0 0 0-.1-2.6s-.8-.3-2.8 1a9.5 9.5 0 0 0-5 0C3.8 1.2 3 1.5 3 1.5a3.5 3.5 0 0 0-.1 2.6 3.9 3.9 0 0 0-1 2.7c0 3.8 2.3 4.7 4.7 5a2.6 2.6 0 0 0-.7 1.9V14"/></svg>
+          <span>GitHub</span>
+          <svg class="ico" width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="margin-left:auto;color:var(--ink-500)"><path d="M6 3H3v10h10v-3"/><path d="M9 3h4v4M8 8l5-5"/></svg>
+        </div>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="avatar">R</div>
+      <div class="who">
+        <div class="name">Ricardo Doberti</div>
+        <div class="role">Consultor · Builder</div>
+      </div>
+    </div>
+  </aside>
 
-    <footer style="margin-top: var(--s-12); border-top: 1px solid var(--ink-100); padding-top: var(--s-6);">
-      <p style="font-size: 12px; color: var(--ink-400); font-family: var(--font-mono);">
-        doberti.me // 2026 // Santiago, Chile
-      </p>
-    </footer>
-  </div>
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="crumbs">
+        <span id="crumb-root" class="current">Inicio</span>
+        <span class="sep" id="crumb-sep" style="display:none">/</span>
+        <span id="crumb-leaf"></span>
+      </div>
+      <div class="spacer"></div>
+      <div class="topbar-right">
+        <a href="mailto:ricardo.doberti@gmail.com" class="btn">Contacto</a>
+        <a href="/cv_ricardo_doberti.pdf" download class="btn btn-primary">↓ CV</a>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ═══ SCREEN: HOME ═══ -->
+      <div class="screen active fade" id="screen-home">
+
+        <div class="hero-panel">
+          <div>
+            <p class="hero-eyebrow">Santiago, Chile — doberti.me</p>
+            <h1 class="hero-name">Ricardo<br><span>Doberti</span></h1>
+            <p class="hero-sub">Consultor e ingeniero de datos. Más de 10 años en la intersección de innovación tecnológica, política pública y Deep Tech. Construyo herramientas que hacen accesibles los datos del ecosistema de I+D chileno.</p>
+            <div class="hero-tags">
+              <span class="chip chip-accent">Política de I+D</span>
+              <span class="chip chip-neutral">Deep Tech</span>
+              <span class="chip chip-neutral">Data Analytics</span>
+              <span class="chip chip-neutral">Python · SQL</span>
+              <span class="chip chip-violet">LLMs</span>
+              <span class="chip chip-neutral">CORFO</span>
+            </div>
+            <div class="hero-links">
+              <a href="#" onclick="nav('projects')" class="btn btn-primary">Ver proyectos</a>
+              <a href="https://www.linkedin.com/in/doberti/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
+              <a href="mailto:ricardo.doberti@gmail.com" class="btn btn-ghost">Email</a>
+            </div>
+          </div>
+          <div class="hero-monogram">RD</div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-label">Experiencia</div><div class="kpi-value">10+</div><div class="kpi-sub">años en innovación y política pública</div></div>
+          <div class="kpi"><div class="kpi-label">Proyectos evaluados</div><div class="kpi-value">50+</div><div class="kpi-sub">Deep Tech en CORFO</div></div>
+          <div class="kpi"><div class="kpi-label">Cartera I+D</div><div class="kpi-value">$5M+</div><div class="kpi-sub">USD en contratos y subsidios</div></div>
+          <div class="kpi"><div class="kpi-label">Idiomas</div><div class="kpi-value">2</div><div class="kpi-sub">Español · Inglés (IELTS 8.5)</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-h"><h3>Perfil</h3></div>
+          <div class="card-b">
+            <div class="about-grid">
+              <div class="about-body">
+                <p>Soy <strong>Ingeniero en Biotecnología Molecular</strong> y <strong>Magíster en Gestión y Políticas Públicas</strong> por la Universidad de Chile, con trayectoria en evaluación de proyectos Deep Tech, gestión de incentivos tributarios de I+D y levantamiento de capital en entornos internacionales.</p>
+                <p>En CORFO lideré la evaluación de más de 50 proyectos en minería, acuicultura, telecom y biotech, y gestioné una cartera de más de 80 proyectos con foco en IA e IoT. En Protera (startup Chile-Francia) apoyé el levantamiento de una Serie B y gestioné contratos de I+D por <strong>3.3 MM USD</strong>.</p>
+                <p>Actualmente combino consultoría con el desarrollo de herramientas de datos propias, aplicando LLMs y analítica avanzada a problemas concretos del ecosistema de innovación chileno.</p>
+              </div>
+              <div>
+                <div class="stat-row"><span class="stat-k">Formación</span><span class="stat-v">Biotech + MGPP</span></div>
+                <div class="stat-row"><span class="stat-k">Certificación</span><span class="stat-v">Business Analytics · MIT</span></div>
+                <div class="stat-row"><span class="stat-k">Stack</span><span class="stat-v">Python · SQL · Flask</span></div>
+                <div class="stat-row"><span class="stat-k">IA</span><span class="stat-v">Claude · Gemini · Ollama</span></div>
+                <div class="stat-row"><span class="stat-k">Ubicación</span><span class="stat-v">Santiago, Chile</span></div>
+                <div class="stat-row"><span class="stat-k">Disponibilidad</span><span class="stat-v">Freelance</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /home -->
+
+      <!-- ═══ SCREEN: PROJECTS ═══ -->
+      <div class="screen fade" id="screen-projects">
+        <div class="section-h">
+          <h1>Proyectos</h1>
+          <span class="meta">1 proyecto activo</span>
+        </div>
+        <div class="projects-grid">
+          <a href="https://TU-APP.railway.app" target="_blank" rel="noopener" class="proj-card featured">
+            <div class="proj-top">
+              <span class="proj-name">Gungnir · CORFO Analytics</span>
+              <span class="proj-arrow">↗</span>
+            </div>
+            <span class="chip chip-live" style="align-self:flex-start">live</span>
+            <p class="proj-desc">Plataforma de consulta en lenguaje natural sobre financiamiento público de I+D en Chile. Convierte preguntas en SQL sobre la base de datos de CORFO usando Gemini. Incluye dashboard de empresas, leads y análisis de cartera.</p>
+            <div class="proj-stack">
+              <span class="stack-tag">Flask</span>
+              <span class="stack-tag">React</span>
+              <span class="stack-tag">SQLite</span>
+              <span class="stack-tag">Gemini</span>
+              <span class="stack-tag">Railway</span>
+            </div>
+          </a>
+          <div class="proj-card">
+            <div class="proj-top"><span class="proj-name">Próximo proyecto</span></div>
+            <span class="chip chip-wip" style="align-self:flex-start">en curso</span>
+            <p class="proj-desc">Nuevas herramientas en desarrollo. Consultoría en análisis de datos e innovación para el sector público y privado.</p>
+            <div class="proj-stack">
+              <span class="stack-tag">Python</span>
+              <span class="stack-tag">Claude API</span>
+              <span class="stack-tag">por definir</span>
+            </div>
+          </div>
+        </div>
+      </div><!-- /projects -->
+
+      <!-- ═══ SCREEN: CV ═══ -->
+      <div class="screen fade" id="screen-cv">
+        <div class="section-h">
+          <h1>Curriculum Vitae</h1>
+          <span class="meta">Ricardo Doberti · Santiago, Chile</span>
+          <div class="spacer"></div>
+          <a href="/cv_ricardo_doberti.pdf" download class="btn btn-primary">↓ Descargar PDF</a>
+        </div>
+
+        <div class="card">
+          <div class="card-h"><h3>Experiencia</h3></div>
+          <div class="card-b flush">
+            <div class="exp-list">
+              <div class="exp-item">
+                <div><div class="exp-org">CORFO · Innovación</div><div class="exp-date">06/2023 — 06/2025</div></div>
+                <div>
+                  <div class="exp-role">Ejecutivo de Incentivos Tributarios Ley I+D</div>
+                  <div class="exp-bullets">
+                    <div class="exp-bullet">Evaluación técnica de +50 proyectos Deep Tech en minería, acuicultura, telecom y biotech</div>
+                    <div class="exp-bullet">Seguimiento de +80 proyectos de I+D con foco en IA e IoT</div>
+                    <div class="exp-bullet">Rediseño de proceso de postulación → 30% reducción en tiempos de entrega</div>
+                    <div class="exp-bullet">Asesoría al Ministerio de Economía en revisión de Ley 20.241</div>
+                  </div>
+                </div>
+              </div>
+              <div class="exp-item">
+                <div><div class="exp-org">Protera</div><div class="exp-date">01/2022 — 03/2023</div></div>
+                <div>
+                  <div class="exp-role">Head of Staff / Product Manager</div>
+                  <div class="exp-bullets">
+                    <div class="exp-bullet">Plataforma SaaS de IA para ingeniería de proteínas con metodologías ágiles</div>
+                    <div class="exp-bullet">3.3 MM USD en contratos de I+D colaborativos gestionados</div>
+                    <div class="exp-bullet">Apoyo en levantamiento de Serie B con fondos de VC Chile-Francia</div>
+                  </div>
+                </div>
+              </div>
+              <div class="exp-item">
+                <div><div class="exp-org">Protera</div><div class="exp-date">10/2020 — 01/2022</div></div>
+                <div>
+                  <div class="exp-role">Business Analyst</div>
+                  <div class="exp-bullets">
+                    <div class="exp-bullet">Coordinación para levantamiento de serie bridge de 5 MM USD</div>
+                    <div class="exp-bullet">Análisis de mercado global de ingredientes y aditivos clean label</div>
+                  </div>
+                </div>
+              </div>
+              <div class="exp-item">
+                <div><div class="exp-org">CORFO · Emprendimiento</div><div class="exp-date">09/2017 — 01/2019</div></div>
+                <div>
+                  <div class="exp-role">Ejecutivo Técnico</div>
+                  <div class="exp-bullets">
+                    <div class="exp-bullet">Portafolio de 200 emprendimientos dinámicos · 3.500 MM CLP</div>
+                    <div class="exp-bullet">Automatización de formularios para reducir tareas rutinarias del equipo</div>
+                  </div>
+                </div>
+              </div>
+              <div class="exp-item">
+                <div><div class="exp-org">R2B Catalyst</div><div class="exp-date">09/2014 — 05/2017</div></div>
+                <div>
+                  <div class="exp-role">Co-Fundador y Gerente de Emprendimiento</div>
+                  <div class="exp-bullets">
+                    <div class="exp-bullet">Programas de aceleración para 40 emprendimientos científicos · 400 MM CLP</div>
+                    <div class="exp-bullet">Laboratorio de biotech 320 m² con UC Davis Chile</div>
+                    <div class="exp-bullet">600 MM CLP levantados (público + privado)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-h"><h3>Educación</h3></div>
+            <div class="card-b">
+              <div class="edu-item"><div class="edu-degree">Business Analytics Certificate</div><div class="edu-school">U. de Chile (FEN) / MIT</div><div class="edu-year">2026</div></div>
+              <div class="edu-item"><div class="edu-degree">Magíster en Gestión y Políticas Públicas</div><div class="edu-school">Universidad de Chile</div><div class="edu-year">2017 – 2020</div></div>
+              <div class="edu-item"><div class="edu-degree">Ingeniería en Biotecnología Molecular</div><div class="edu-school">Universidad de Chile</div><div class="edu-year">2010 – 2016</div></div>
+              <div class="edu-item"><div class="edu-degree">OMPI Summer School</div><div class="edu-school">INAPI</div><div class="edu-year">2019</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3>Habilidades técnicas</h3></div>
+            <div class="card-b">
+              <div class="skill-group"><div class="skill-label">Análisis de datos</div><div class="skill-tags"><span class="chip chip-neutral">Python</span><span class="chip chip-neutral">Pandas</span><span class="chip chip-neutral">Scikit-learn</span><span class="chip chip-neutral">SQL</span><span class="chip chip-neutral">PowerBI</span></div></div>
+              <div class="skill-group"><div class="skill-label">Desarrollo web</div><div class="skill-tags"><span class="chip chip-neutral">Flask</span><span class="chip chip-neutral">React</span><span class="chip chip-neutral">SQLite</span><span class="chip chip-neutral">Railway</span></div></div>
+              <div class="skill-group"><div class="skill-label">IA / LLMs</div><div class="skill-tags"><span class="chip chip-violet">Claude API</span><span class="chip chip-violet">Gemini</span><span class="chip chip-neutral">Ollama</span><span class="chip chip-neutral">Claude Code</span></div></div>
+              <div class="skill-group"><div class="skill-label">Metodologías</div><div class="skill-tags"><span class="chip chip-neutral">Scrum</span><span class="chip chip-neutral">Kanban</span><span class="chip chip-neutral">Stage-gate</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /cv -->
+
+      <!-- ═══ SCREEN: BLOG ═══ -->
+      <div class="screen fade" id="screen-blog">
+        <div class="section-h"><h1>Notas</h1><span class="meta">próximamente</span></div>
+        <div class="blog-empty">// notas sobre datos, innovación y política pública — en construcción</div>
+      </div><!-- /blog -->
+
+      <!-- ═══ SCREEN: CONTACT ═══ -->
+      <div class="screen fade" id="screen-contact">
+        <div class="section-h"><h1>Contacto</h1></div>
+        <div class="card">
+          <div class="card-b">
+            <div class="contact-grid">
+              <div class="contact-intro">
+                <p>Disponible para proyectos de consultoría en análisis de datos, evaluación de innovación, o desarrollo de herramientas para el sector público y privado.</p>
+                <br/>
+                <p>También abierto a conversaciones sobre política de I+D, Deep Tech, o la intersección de datos y ciencia.</p>
+              </div>
+              <div>
+                <a href="mailto:ricardo.doberti@gmail.com" class="contact-row"><span class="contact-key">Email</span><span class="contact-val">ricardo.doberti@gmail.com</span></a>
+                <a href="https://www.linkedin.com/in/doberti/" target="_blank" class="contact-row"><span class="contact-key">LinkedIn</span><span class="contact-val">linkedin.com/in/doberti ↗</span></a>
+                <a href="https://github.com/rdoberti" target="_blank" class="contact-row"><span class="contact-key">GitHub</span><span class="contact-val">github.com/rdoberti ↗</span></a>
+                <div class="contact-row"><span class="contact-key">Teléfono</span><span class="contact-val">+56 9 8361 6011</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /contact -->
+
+      <div class="site-footer">
+        <span>© 2025 Ricardo Doberti</span>
+        <span>doberti.me · hecho a mano</span>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+  const screens = ['home','projects','cv','blog','contact'];
+  const labels = { home:'Inicio', projects:'Proyectos', cv:'CV', blog:'Notas', contact:'Contacto' };
+
+  function nav(id) {
+    screens.forEach(s => {
+      document.getElementById('screen-'+s).classList.remove('active');
+      const el = document.querySelector('.nav-item[data-screen="'+s+'"]');
+      if (el) el.classList.remove('active');
+    });
+    const scr = document.getElementById('screen-'+id);
+    if (scr) { scr.classList.add('active'); scr.classList.remove('fade'); void scr.offsetWidth; scr.classList.add('fade'); }
+    const nav = document.querySelector('.nav-item[data-screen="'+id+'"]');
+    if (nav) nav.classList.add('active');
+    const sep = document.getElementById('crumb-sep');
+    const leaf = document.getElementById('crumb-leaf');
+    const root = document.getElementById('crumb-root');
+    if (id === 'home') { sep.style.display='none'; leaf.textContent=''; root.className='current'; }
+    else { sep.style.display=''; leaf.textContent=labels[id]||id; leaf.className='current'; root.className=''; }
+    try { localStorage.setItem('portfolio:screen', id); } catch {}
+    return false;
+  }
+
+  try {
+    const last = localStorage.getItem('portfolio:screen');
+    if (last && screens.includes(last)) nav(last);
+  } catch {}
+</script>
 </body>
 </html>
