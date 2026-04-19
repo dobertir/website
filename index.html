@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ricardo Doberti — Innovación & Data</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link href="https://fonts.googleapis.com/css2?family=Abel&family=Archivo:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: var(--ink-0); /* El crema claro de Gungnir */
+      color: var(--ink-900);
+      font-family: var(--font-sans);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      padding: var(--s-8) var(--s-4);
+    }
+    .container { max-width: 700px; width: 100%; }
+    header { margin-bottom: var(--s-8); }
+    h1 { font-family: var(--font-brand); font-size: 32px; font-weight: 400; color: var(--ink-900); }
+    .subtitle { color: var(--ink-400); font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
+    
+    .project-card {
+      background: white;
+      border: 1px solid var(--ink-200);
+      border-radius: var(--r-3);
+      padding: var(--s-6);
+      margin-top: var(--s-6);
+      transition: transform 0.2s ease;
+    }
+    .project-card:hover { transform: translateY(-2px); border-color: var(--accent-base); }
+    .tag { 
+      font-family: var(--font-mono); font-size: 11px; 
+      background: var(--ink-50); padding: 2px 6px; border-radius: 4px;
+    }
+    .btn-launch {
+      display: inline-block;
+      margin-top: var(--s-4);
+      color: var(--accent-base);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="subtitle">Ricardo Doberti / Portafolio</div>
+      <h1>Explorando la intersección entre datos y políticas públicas.</h1>
+    </header>
+
+    <section>
+      <div class="project-card">
+        <span class="tag">PROYECTO DESTACADO</span>
+        <h2 style="font-family: var(--font-display); font-size: 20px; margin: 12px 0 8px;">Gungnir: Public Funding Analytics</h2>
+        <p style="color: var(--ink-600); font-size: 15px; line-height: 1.6;">
+          Plataforma de inteligencia de datos para el análisis de financiamiento público en Chile. 
+          Diseñada para analistas que buscan conectar con empresas innovadoras.
+        </p>
+        <a href="Gungnir.html" class="btn-launch">Lanzar App →</a>
+      </div>
+    </section>
+
+    <footer style="margin-top: var(--s-12); border-top: 1px solid var(--ink-100); padding-top: var(--s-6);">
+      <p style="font-size: 12px; color: var(--ink-400); font-family: var(--font-mono);">
+        doberti.me // 2026 // Santiago, Chile
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
