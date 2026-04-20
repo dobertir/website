@@ -5,239 +5,435 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ricardo Doberti — Consultor & Builder</title>
   <meta name="description" content="Ingeniero en Biotecnología y Magíster en Gestión y Políticas Públicas. Herramientas de datos para el ecosistema de innovación chileno." />
-  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Abel&family=Archivo:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  
+  <link href="https://fonts.googleapis.com/css2?family=Abel&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tokens.css" />
-  
   <style>
-    /* Hero specific overrides using Gungnir palette */
-    .hero-panel {
-      background: var(--ink-900);
-      border-radius: var(--r-4);
-      padding: var(--s-10) var(--s-8);
-      margin-bottom: var(--s-6);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: var(--s-8);
-      align-items: start;
+    body { background: var(--paper); }
+    .page { max-width: 780px; margin: 0 auto; padding: 0 var(--s-6); }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(247,246,242,0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--ink-200);
     }
-    .hero-panel h1 {
-      font-size: var(--fs-48);
-      color: white;
-      line-height: 1.1;
-      margin-bottom: var(--s-3);
+    .nav-inner {
+      max-width: 780px; margin: 0 auto; padding: 0 var(--s-6);
+      height: 52px; display: flex; align-items: center; gap: var(--s-6);
     }
-    .hero-panel h1 span { color: var(--highlight); }
-    .hero-panel p { color: var(--ink-300); max-width: 520px; font-size: var(--fs-14); }
-    
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: var(--s-4);
-      margin-bottom: var(--s-6);
+    .nav-logo {
+      font-family: var(--font-brand); font-size: var(--fs-18);
+      color: var(--ink-900); text-decoration: none;
+      letter-spacing: 0.01em; flex-shrink: 0;
     }
-    .kpi-card {
-      background: var(--card);
-      border: 1px solid var(--ink-200);
-      border-radius: var(--r-4);
-      padding: var(--s-4) var(--s-5);
+    .nav-logo em { font-style: normal; color: var(--highlight); }
+    .nav-links { display: flex; align-items: center; gap: 2px; margin-left: auto; }
+    .nav-links a {
+      font-family: var(--font-mono); font-size: var(--fs-11);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-500); text-decoration: none;
+      padding: 5px 10px; border-radius: var(--r-2);
+      transition: color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
     }
-    
-    .avatar-large {
-      width: 72px; height: 72px; border-radius: var(--r-3);
-      background: var(--accent); color: white;
-      display: grid; place-items: center;
-      font-size: var(--fs-28); font-weight: 700;
+    .nav-links a:hover { color: var(--ink-900); background: var(--ink-100); text-decoration: none; }
+    .nav-links a.active { color: var(--accent); background: var(--accent-dim); }
+    .nav-cta {
+      font-family: var(--font-mono); font-size: var(--fs-11);
+      padding: 5px 12px; border-radius: var(--r-2);
+      background: var(--accent); color: white !important;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background var(--t-fast) var(--ease);
+    }
+    .nav-cta:hover { background: var(--accent-ink) !important; color: white; text-decoration: none; }
+
+    /* SCREENS */
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeUp 0.3s var(--ease) forwards; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+    /* HERO */
+    .hero { padding: 96px 0 80px; border-bottom: 1px solid var(--ink-200); }
+    .hero-label {
+      font-family: var(--font-mono); font-size: var(--fs-11);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-400); margin-bottom: var(--s-5);
+      display: flex; align-items: center; gap: var(--s-3);
+    }
+    .hero-label::before { content:''; width:24px; height:1px; background:var(--ink-300); display:inline-block; }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(48px,8vw,80px);
+      font-weight: 600; letter-spacing: -0.03em;
+      line-height: 1.0; color: var(--ink-900); margin-bottom: var(--s-5);
+    }
+    .hero-name span { font-style: italic; font-weight: 300; color: var(--ink-500); }
+    .hero-tagline {
+      font-size: var(--fs-18); font-weight: 300; color: var(--ink-700);
+      line-height: 1.6; max-width: 540px; margin-bottom: var(--s-8);
+    }
+    .hero-tagline strong { color: var(--ink-900); font-weight: 500; }
+    .hero-actions { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; margin-bottom: var(--s-10); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+    .hero-tag {
+      font-family: var(--font-mono); font-size: var(--fs-11);
+      color: var(--ink-500); border: 1px solid var(--ink-200);
+      padding: 3px 10px; border-radius: 20px; letter-spacing: 0.02em;
     }
 
-    /* Transition for screens */
-    .screen { display: none; }
-    .screen.active { display: block; animation: fadeIn 0.3s var(--ease); }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    /* SECTIONS */
+    .section { padding: 72px 0; border-bottom: 1px solid var(--ink-200); }
+    .section:last-of-type { border-bottom: none; }
+    .section-label {
+      font-family: var(--font-mono); font-size: var(--fs-11);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-400); margin-bottom: var(--s-8);
+      display: flex; align-items: center; gap: var(--s-3);
+    }
+    .section-label::after { content:''; flex:1; height:1px; background:var(--ink-200); }
+
+    /* ABOUT */
+    .about-layout { display: grid; grid-template-columns: 1fr 200px; gap: var(--s-12); align-items: start; }
+    .about-body { font-size: var(--fs-16); color: var(--ink-700); line-height: 1.75; }
+    .about-body p + p { margin-top: var(--s-4); }
+    .about-body strong { color: var(--ink-900); font-weight: 500; }
+    .about-aside { display: flex; flex-direction: column; }
+    .aside-row { padding: var(--s-3) 0; border-bottom: 1px solid var(--ink-200); }
+    .aside-row:first-child { border-top: 1px solid var(--ink-200); }
+    .aside-key { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-400); margin-bottom: 2px; }
+    .aside-val { font-family: var(--font-mono); font-size: var(--fs-12); color: var(--ink-900); font-weight: 500; }
+
+    /* PROJECTS */
+    .projects-list { display: flex; flex-direction: column; gap: var(--s-4); }
+    .project-item {
+      display: grid; grid-template-columns: 1fr auto; gap: var(--s-6);
+      padding: var(--s-6); border: 1px solid var(--ink-200);
+      border-radius: var(--r-4); background: var(--card);
+      text-decoration: none; color: inherit; align-items: start;
+      transition: border-color var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
+    }
+    .project-item:hover { border-color: var(--ink-300); box-shadow: var(--shadow-2); text-decoration: none; }
+    .project-item.featured { border-color: var(--accent); background: var(--accent-dim); }
+    .project-item.featured:hover { border-color: var(--accent-2); }
+    .proj-meta { display: flex; align-items: center; gap: var(--s-3); margin-bottom: var(--s-3); }
+    .proj-name { font-family: var(--font-display); font-size: var(--fs-18); font-weight: 600; color: var(--ink-900); letter-spacing: -0.01em; }
+    .proj-desc { font-size: var(--fs-14); color: var(--ink-500); line-height: 1.65; margin-bottom: var(--s-4); max-width: 480px; }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+    .stack-tag { font-family: var(--font-mono); font-size: 10px; color: var(--ink-400); border: 1px solid var(--ink-200); padding: 2px 8px; border-radius: var(--r-2); background: var(--paper); }
+    .project-item.featured .stack-tag { background: white; }
+    .proj-arrow {
+      width: 36px; height: 36px; border: 1px solid var(--ink-200);
+      border-radius: var(--r-3); display: flex; align-items: center;
+      justify-content: center; color: var(--ink-400); font-size: var(--fs-16);
+      flex-shrink: 0; margin-top: 2px;
+      transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+    }
+    .project-item:hover .proj-arrow { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+    /* EXPERIENCE */
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-item { display: grid; grid-template-columns: 160px 1fr; gap: var(--s-8); padding: var(--s-6) 0; border-bottom: 1px solid var(--ink-200); }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-org { font-family: var(--font-mono); font-size: var(--fs-12); font-weight: 500; color: var(--ink-900); margin-bottom: 3px; }
+    .exp-date { font-family: var(--font-mono); font-size: var(--fs-11); color: var(--ink-400); }
+    .exp-role { font-size: var(--fs-16); font-weight: 500; color: var(--ink-900); margin-bottom: var(--s-3); letter-spacing: -0.01em; }
+    .exp-bullets { display: flex; flex-direction: column; gap: var(--s-2); }
+    .exp-bullet { font-size: var(--fs-13); color: var(--ink-500); line-height: 1.6; padding-left: var(--s-4); position: relative; }
+    .exp-bullet::before { content:'·'; position: absolute; left: var(--s-2); color: var(--ink-300); }
+
+    /* EDU + SKILLS */
+    .edu-skills { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-12); }
+    .edu-block-title { font-family: var(--font-mono); font-size: var(--fs-11); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-400); margin-bottom: var(--s-5); }
+    .edu-item { padding: var(--s-4) 0; border-bottom: 1px solid var(--ink-200); }
+    .edu-item:first-child { border-top: 1px solid var(--ink-200); }
+    .edu-degree { font-size: var(--fs-13); font-weight: 500; color: var(--ink-900); margin-bottom: 2px; }
+    .edu-school { font-family: var(--font-mono); font-size: var(--fs-11); color: var(--ink-400); }
+    .edu-year { font-family: var(--font-mono); font-size: var(--fs-11); color: var(--ink-300); margin-top: 2px; }
+    .skill-group { margin-bottom: var(--s-5); }
+    .skill-group-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-400); margin-bottom: var(--s-2); }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+
+    /* BLOG */
+    .blog-empty { padding: var(--s-12) var(--s-8); text-align: center; border: 1px dashed var(--ink-200); border-radius: var(--r-4); }
+    .blog-empty-label { font-family: var(--font-mono); font-size: var(--fs-11); color: var(--ink-300); letter-spacing: 0.08em; }
+
+    /* FOOTER */
+    footer { padding: var(--s-8) 0; display: flex; justify-content: space-between; align-items: center; }
+    footer span { font-family: var(--font-mono); font-size: var(--fs-11); color: var(--ink-300); }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .page { padding: 0 var(--s-4); }
+      .nav-inner { padding: 0 var(--s-4); }
+      .nav-links a { display: none; }
+      .hero { padding: 56px 0 48px; }
+      .hero-name { font-size: 44px; }
+      .about-layout, .edu-skills { grid-template-columns: 1fr; gap: var(--s-8); }
+      .exp-item { grid-template-columns: 1fr; gap: var(--s-2); }
+      .project-item { grid-template-columns: 1fr; }
+      .proj-arrow { display: none; }
+    }
   </style>
 </head>
 <body>
 
-<div class="shell">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-row">
-        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-          <circle cx="16" cy="16" r="15" fill="#FBFAF7" stroke="var(--accent)" stroke-width="1.25" />
-          <path d="M16 5.5 L19.1 13 L16 18.2 L12.9 13 Z" fill="var(--accent)" />
-        </svg>
-        <div class="wordmark">doberti<em>·</em>me</div>
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" onclick="nav('home'); return false;">doberti<em>·</em>me</a>
+    <div class="nav-links">
+      <a href="#" onclick="nav('home'); return false;" data-screen="home" class="active">Inicio</a>
+      <a href="#" onclick="nav('projects'); return false;" data-screen="projects">Proyectos</a>
+      <a href="#" onclick="nav('cv'); return false;" data-screen="cv">CV</a>
+      <a href="#" onclick="nav('blog'); return false;" data-screen="blog">Notas</a>
+    </div>
+    <a href="mailto:ricardo.doberti@gmail.com" class="nav-cta" style="margin-left: var(--s-3)">Contacto</a>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="screen active" id="screen-home">
+  <div class="page">
+    <div class="hero">
+      <div class="hero-label">Santiago, Chile</div>
+      <h1 class="hero-name">Ricardo<br><span>Doberti.</span></h1>
+      <p class="hero-tagline"><strong>Consultor e ingeniero de datos</strong> en la intersección de innovación, política pública y Deep Tech. Construyo herramientas que transforman datos del ecosistema de I+D en inteligencia estratégica.</p>
+      <div class="hero-actions">
+        <a href="#" onclick="nav('projects'); return false;" class="btn btn-primary">Ver proyectos</a>
+        <a href="/cv_ricardo_doberti.pdf" download class="btn btn-secondary">Descargar CV</a>
+        <a href="https://linkedin.com/in/doberti" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
       </div>
-      <div class="tagline">Portfolio & Projects</div>
+      <div class="hero-tags">
+        <span class="hero-tag">Política de I+D</span>
+        <span class="hero-tag">Deep Tech</span>
+        <span class="hero-tag">Data Analytics</span>
+        <span class="hero-tag">Python · SQL</span>
+        <span class="hero-tag">LLMs</span>
+        <span class="hero-tag">CORFO</span>
+        <span class="hero-tag">IELTS 8.5</span>
+      </div>
     </div>
 
-    <div class="nav-section">
-      <div class="nav-label">Workspace</div>
-      <div class="nav-item active" data-screen="home" onclick="nav('home')">
-        <span>Inicio</span>
-      </div>
-      <div class="nav-item" data-screen="projects" onclick="nav('projects')">
-        <span>Proyectos</span>
-        <span class="count">1</span>
-      </div>
-      <div class="nav-item" data-screen="cv" onclick="nav('cv')">
-        <span>CV</span>
-      </div>
-    </div>
-
-    <div class="nav-section">
-      <div class="nav-label">External</div>
-      <a href="https://linkedin.com/in/doberti" target="_blank" class="nav-item">LinkedIn</a>
-      <a href="https://github.com/rdoberti" target="_blank" class="nav-item">GitHub</a>
-    </div>
-
-    <div class="sidebar-footer">
-      <div class="avatar">R</div>
-      <div class="who">
-        <div class="name">Ricardo Doberti</div>
-        <div class="role">Consultor · Santiago</div>
+    <div class="section">
+      <div class="section-label">Perfil</div>
+      <div class="about-layout">
+        <div class="about-body">
+          <p>Soy <strong>Ingeniero en Biotecnología Molecular</strong> y <strong>Magíster en Gestión y Políticas Públicas</strong> por la Universidad de Chile. Más de 10 años liderando la intersección entre ciencia, tecnología y sector público.</p>
+          <p>En CORFO lideré la evaluación técnica de más de 50 proyectos Deep Tech en minería, acuicultura, telecomunicaciones y biotech, y gestioné una cartera de más de 80 proyectos con foco en IA e IoT. En Protera (startup Chile-Francia) apoyé el levantamiento de una Serie B y gestioné contratos de I+D por <strong>3.3 MM USD</strong>.</p>
+          <p>Actualmente combino consultoría con el desarrollo de herramientas de datos propias, aplicando LLMs y analítica avanzada a problemas concretos del ecosistema de innovación chileno.</p>
+        </div>
+        <div class="about-aside">
+          <div class="aside-row"><div class="aside-key">Formación</div><div class="aside-val">Biotech + MGPP</div></div>
+          <div class="aside-row"><div class="aside-key">Certificación</div><div class="aside-val">Analytics · MIT</div></div>
+          <div class="aside-row"><div class="aside-key">Stack</div><div class="aside-val">Python · SQL · Flask</div></div>
+          <div class="aside-row"><div class="aside-key">IA</div><div class="aside-val">Claude · Gemini</div></div>
+          <div class="aside-row"><div class="aside-key">Idiomas</div><div class="aside-val">ES · EN (8.5)</div></div>
+          <div class="aside-row"><div class="aside-key">Base</div><div class="aside-val">Santiago, Chile</div></div>
+        </div>
       </div>
     </div>
-  </aside>
 
-  <main class="main">
-    <header class="topbar">
-      <div class="crumbs">
-        <span id="crumb-root" class="current">Inicio</span>
-        <span class="sep" id="crumb-sep" style="display:none">/</span>
-        <span id="crumb-leaf"></span>
-      </div>
-      <div class="spacer"></div>
-      <div class="row">
-        <a href="mailto:ricardo.doberti@gmail.com" class="btn btn-secondary btn-sm">Contacto</a>
-        <a href="/cv_ricardo_doberti.pdf" download class="btn btn-primary btn-sm">Descargar CV</a>
-      </div>
-    </header>
+    <div class="section">
+      <div class="section-label">Proyecto destacado</div>
+      <a href="https://gungnir.doberti.me" target="_blank" rel="noopener" class="project-item featured">
+        <div>
+          <div class="proj-meta">
+            <span class="proj-name">Gungnir · CORFO Analytics</span>
+            <span class="chip chip-navy">Live</span>
+          </div>
+          <p class="proj-desc">Plataforma de consulta en lenguaje natural sobre financiamiento público de I+D en Chile. Convierte preguntas en SQL sobre la base de datos de CORFO usando Gemini.</p>
+          <div class="proj-stack">
+            <span class="stack-tag">Flask</span>
+            <span class="stack-tag">React</span>
+            <span class="stack-tag">SQLite</span>
+            <span class="stack-tag">Gemini</span>
+            <span class="stack-tag">Railway</span>
+          </div>
+        </div>
+        <div class="proj-arrow">↗</div>
+      </a>
+    </div>
 
-    <div class="content">
-      
-      <section class="screen active" id="screen-home">
-        <div class="hero-panel">
+    <footer><span>© 2025 Ricardo Doberti</span><span>doberti.me</span></footer>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="screen" id="screen-projects">
+  <div class="page">
+    <div class="section" style="padding-top: var(--s-12)">
+      <div class="section-label">Proyectos</div>
+      <div class="projects-list">
+        <a href="https://gungnir.doberti.me" target="_blank" rel="noopener" class="project-item featured">
           <div>
-            <div class="upper" style="color: var(--ink-400); margin-bottom: var(--s-3)">Santiago, Chile</div>
-            <h1>Ricardo<br><span>Doberti</span></h1>
-            <p>Ingeniero de datos y consultor. Especializado en el ecosistema de I+D y Deep Tech. Construyo herramientas que transforman datos públicos en inteligencia estratégica.</p>
-            <div class="row" style="margin-top: var(--s-6)">
-              <button onclick="nav('projects')" class="btn btn-primary">Explorar Proyectos</button>
-              <a href="https://github.com/rdoberti" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+            <div class="proj-meta">
+              <span class="proj-name">Gungnir · CORFO Analytics</span>
+              <span class="chip chip-navy">Live</span>
+            </div>
+            <p class="proj-desc">Plataforma de inteligencia de datos que transforma lenguaje natural en consultas SQL sobre la base de datos de CORFO. Permite analizar carteras de proyectos, leads de innovación y financiamiento público de I+D en Chile.</p>
+            <div class="proj-stack">
+              <span class="stack-tag">Flask</span>
+              <span class="stack-tag">React</span>
+              <span class="stack-tag">SQLite</span>
+              <span class="stack-tag">Gemini</span>
+              <span class="stack-tag">Railway</span>
+              <span class="stack-tag">Claude Code</span>
             </div>
           </div>
-          <div class="avatar-large">RD</div>
-        </div>
-
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="upper">Experiencia</div>
-            <div class="serif" style="font-size: var(--fs-28); font-weight: 600">10+ años</div>
-            <div class="muted">en innovación y política pública</div>
-          </div>
-          <div class="kpi-card">
-            <div class="upper">Proyectos Deep Tech</div>
-            <div class="serif" style="font-size: var(--fs-28); font-weight: 600">50+</div>
-            <div class="muted">evaluados en CORFO</div>
-          </div>
-          <div class="kpi-card">
-            <div class="upper">Cartera I+D</div>
-            <div class="serif" style="font-size: var(--fs-28); font-weight: 600">$5M+</div>
-            <div class="muted">USD gestionados en contratos</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-h"><h3>Perfil Profesional</h3></div>
-          <div class="card-b">
-            <div class="grid-12">
-              <div class="span-8">
-                <p style="margin-bottom: var(--s-4)">Soy <strong>Ingeniero en Biotecnología Molecular</strong> y <strong>Magíster en Gestión y Políticas Públicas</strong> por la Universidad de Chile. Mi trayectoria se centra en la intersección de la ciencia, la tecnología y el sector público.</p>
-                <p>En CORFO lideré la evaluación de incentivos tributarios de I+D, asesorando en procesos técnicos y regulatorios. Actualmente diseño soluciones de analítica avanzada y LLMs para optimizar procesos en el ecosistema de innovación chileno.</p>
-              </div>
-              <div class="span-4">
-                <div class="col" style="gap: var(--s-2)">
-                  <div class="row" style="justify-content: space-between"><span class="upper">Formación</span><span class="mono">Biotech + MGPP</span></div>
-                  <div class="row" style="justify-content: space-between"><span class="upper">Stack</span><span class="mono">Python · SQL</span></div>
-                  <div class="row" style="justify-content: space-between"><span class="upper">Cert.</span><span class="mono">MIT Analytics</span></div>
-                </div>
-              </div>
+          <div class="proj-arrow">↗</div>
+        </a>
+        <div class="project-item" style="opacity:0.55;pointer-events:none;">
+          <div>
+            <div class="proj-meta">
+              <span class="proj-name">Próximo proyecto</span>
+              <span class="chip chip-neutral">En curso</span>
+            </div>
+            <p class="proj-desc">Nuevas herramientas en desarrollo. Consultoría en análisis de datos e innovación para el sector público y privado.</p>
+            <div class="proj-stack">
+              <span class="stack-tag">Python</span>
+              <span class="stack-tag">Claude API</span>
+              <span class="stack-tag">por definir</span>
             </div>
           </div>
         </div>
-      </section>
-
-      <section class="screen" id="screen-projects">
-        <div class="section-h">
-          <h1>Proyectos Destacados</h1>
-          <div class="meta">Analítica & Innovación</div>
-        </div>
-        
-        <div class="grid-12">
-          <div class="span-6">
-            <div class="card">
-              <div class="card-h">
-                <h3>Gungnir · Public Funding Analytics</h3>
-                <span class="chip chip-navy">Live</span>
-              </div>
-              <div class="card-b">
-                <p style="margin-bottom: var(--s-4)">Plataforma de inteligencia de datos que utiliza Gemini para transformar lenguaje natural en consultas SQL sobre la base de datos de CORFO. Permite analizar carteras de proyectos y leads de innovación.</p>
-                <div class="row" style="flex-wrap: wrap; gap: var(--s-2)">
-                  <span class="chip chip-neutral">Flask</span>
-                  <span class="chip chip-neutral">React</span>
-                  <span class="chip chip-neutral">SQLite</span>
-                  <span class="chip chip-violet">LLMs</span>
-                </div>
-                <hr class="hr">
-                <a href="https://gungnir.doberti.me" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width: 100%; justify-content: center">Ver Proyecto ↗</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer class="sidebar-footer" style="background: transparent; border-top: 1px solid var(--ink-200); margin-top: var(--s-12); padding: var(--s-4) 0">
-        <span class="upper">© 2025 Ricardo Doberti</span>
-        <span class="spacer"></span>
-        <span class="upper">doberti.me</span>
-      </footer>
+      </div>
     </div>
-  </main>
+    <footer><span>© 2025 Ricardo Doberti</span><span>doberti.me</span></footer>
+  </div>
+</div>
+
+<!-- CV -->
+<div class="screen" id="screen-cv">
+  <div class="page">
+    <div class="section" style="padding-top: var(--s-12)">
+      <div class="section-label" style="justify-content:space-between;">
+        <span style="display:flex;align-items:center;gap:var(--s-3);">Experiencia<span style="width:40px;height:1px;background:var(--ink-200);display:inline-block;"></span></span>
+        <a href="/cv_ricardo_doberti.pdf" download class="btn btn-secondary btn-sm">↓ Descargar CV completo</a>
+      </div>
+      <div class="exp-list">
+        <div class="exp-item">
+          <div><div class="exp-org">CORFO · Innovación</div><div class="exp-date">06/2023 — 06/2025</div></div>
+          <div>
+            <div class="exp-role">Ejecutivo de Incentivos Tributarios Ley I+D</div>
+            <div class="exp-bullets">
+              <div class="exp-bullet">Evaluación técnica de +50 proyectos Deep Tech en minería, acuicultura, telecom y biotech</div>
+              <div class="exp-bullet">Seguimiento de +80 proyectos de I+D con foco en IA e IoT</div>
+              <div class="exp-bullet">Rediseño de proceso de postulación → 30% reducción en tiempos de entrega</div>
+              <div class="exp-bullet">Asesoría al Ministerio de Economía en revisión de Ley 20.241</div>
+            </div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div><div class="exp-org">Protera</div><div class="exp-date">01/2022 — 03/2023</div></div>
+          <div>
+            <div class="exp-role">Head of Staff / Product Manager</div>
+            <div class="exp-bullets">
+              <div class="exp-bullet">Plataforma SaaS de IA para ingeniería de proteínas con metodologías ágiles</div>
+              <div class="exp-bullet">3.3 MM USD en contratos de I+D colaborativos gestionados</div>
+              <div class="exp-bullet">Apoyo en levantamiento de Serie B con fondos de VC Chile-Francia</div>
+            </div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div><div class="exp-org">Protera</div><div class="exp-date">10/2020 — 01/2022</div></div>
+          <div>
+            <div class="exp-role">Business Analyst</div>
+            <div class="exp-bullets">
+              <div class="exp-bullet">Coordinación para levantamiento de serie bridge de 5 MM USD</div>
+              <div class="exp-bullet">Análisis de mercado global de ingredientes y aditivos clean label</div>
+            </div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div><div class="exp-org">CORFO · Emprendimiento</div><div class="exp-date">09/2017 — 01/2019</div></div>
+          <div>
+            <div class="exp-role">Ejecutivo Técnico</div>
+            <div class="exp-bullets">
+              <div class="exp-bullet">Portafolio de 200 emprendimientos dinámicos · 3.500 MM CLP</div>
+              <div class="exp-bullet">Automatización de formularios para reducir tareas rutinarias</div>
+            </div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div><div class="exp-org">R2B Catalyst</div><div class="exp-date">09/2014 — 05/2017</div></div>
+          <div>
+            <div class="exp-role">Co-Fundador y Gerente de Emprendimiento</div>
+            <div class="exp-bullets">
+              <div class="exp-bullet">Aceleración de 40 emprendimientos científicos · 400 MM CLP</div>
+              <div class="exp-bullet">Laboratorio de biotech 320 m² con UC Davis Chile</div>
+              <div class="exp-bullet">600 MM CLP levantados (público + privado)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="edu-skills">
+        <div>
+          <div class="edu-block-title">Educación</div>
+          <div class="edu-item"><div class="edu-degree">Business Analytics Certificate</div><div class="edu-school">U. de Chile (FEN) / MIT</div><div class="edu-year">2026</div></div>
+          <div class="edu-item"><div class="edu-degree">Magíster en Gestión y Políticas Públicas</div><div class="edu-school">Universidad de Chile</div><div class="edu-year">2017 – 2020</div></div>
+          <div class="edu-item"><div class="edu-degree">Ingeniería en Biotecnología Molecular</div><div class="edu-school">Universidad de Chile</div><div class="edu-year">2010 – 2016</div></div>
+          <div class="edu-item"><div class="edu-degree">OMPI Summer School</div><div class="edu-school">INAPI</div><div class="edu-year">2019</div></div>
+        </div>
+        <div>
+          <div class="edu-block-title">Habilidades técnicas</div>
+          <div class="skill-group">
+            <div class="skill-group-label">Análisis de datos</div>
+            <div class="skill-tags"><span class="chip chip-neutral">Python</span><span class="chip chip-neutral">Pandas</span><span class="chip chip-neutral">Scikit-learn</span><span class="chip chip-neutral">SQL</span><span class="chip chip-neutral">PowerBI</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Desarrollo</div>
+            <div class="skill-tags"><span class="chip chip-neutral">Flask</span><span class="chip chip-neutral">React</span><span class="chip chip-neutral">SQLite</span><span class="chip chip-neutral">Railway</span><span class="chip chip-neutral">Vercel</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">IA / LLMs</div>
+            <div class="skill-tags"><span class="chip chip-violet">Claude API</span><span class="chip chip-violet">Gemini</span><span class="chip chip-neutral">Ollama</span><span class="chip chip-neutral">Claude Code</span></div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Metodologías</div>
+            <div class="skill-tags"><span class="chip chip-neutral">Scrum</span><span class="chip chip-neutral">Kanban</span><span class="chip chip-neutral">Stage-gate</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer><span>© 2025 Ricardo Doberti</span><span>doberti.me</span></footer>
+  </div>
+</div>
+
+<!-- BLOG -->
+<div class="screen" id="screen-blog">
+  <div class="page">
+    <div class="section" style="padding-top: var(--s-12)">
+      <div class="section-label">Notas</div>
+      <div class="blog-empty">
+        <div class="blog-empty-label">// próximamente — notas sobre datos, innovación y política pública</div>
+      </div>
+    </div>
+    <footer><span>© 2025 Ricardo Doberti</span><span>doberti.me</span></footer>
+  </div>
 </div>
 
 <script>
-  const screens = ['home', 'projects', 'cv'];
-  const labels = { home: 'Inicio', projects: 'Proyectos', cv: 'CV' };
-
+  const screens = ['home','projects','cv','blog'];
   function nav(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    
-    document.getElementById('screen-' + id).classList.add('active');
-    const navItem = document.querySelector(`.nav-item[data-screen="${id}"]`);
-    if (navItem) navItem.classList.add('active');
-
-    const sep = document.getElementById('crumb-sep');
-    const leaf = document.getElementById('crumb-leaf');
-    const root = document.getElementById('crumb-root');
-
-    if (id === 'home') {
-      sep.style.display = 'none';
-      leaf.textContent = '';
-      root.className = 'current';
-    } else {
-      sep.style.display = '';
-      leaf.textContent = labels[id];
-      leaf.className = 'current';
-      root.className = '';
-    }
-    return false;
+    screens.forEach(s => {
+      document.getElementById('screen-'+s).classList.remove('active');
+      const l = document.querySelector('.nav-links a[data-screen="'+s+'"]');
+      if (l) l.classList.remove('active');
+    });
+    const scr = document.getElementById('screen-'+id);
+    if (scr) { scr.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+    const lnk = document.querySelector('.nav-links a[data-screen="'+id+'"]');
+    if (lnk) lnk.classList.add('active');
+    try { localStorage.setItem('portfolio:screen', id); } catch {}
   }
+  try {
+    const last = localStorage.getItem('portfolio:screen');
+    if (last && screens.includes(last)) nav(last);
+  } catch {}
 </script>
-
 </body>
 </html>
